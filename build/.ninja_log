@@ -1,12 +1,18 @@
 # ninja log v5
-26	937	7015723270854765	src/CMakeFiles/cad.dir/main.cpp.obj	c7d59e525ef19758
-1	422	7015727203321798	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_impl_opengl3.cpp.obj	153484200bdcdaeb
+29	665	7015727205867076	src/CMakeFiles/cad.dir/main.cpp.obj	3d051b038e90fc35
 25	429	7015727203479340	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_tables.cpp.obj	89408a056a7838b8
+5	814	7015727207348657	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui.cpp.obj	f5a98c83c7ee67c2
+9	620	7015727205338237	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_impl_glfw.cpp.obj	c36d4ceb6560b6d3
+1	422	7015727203321798	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_impl_opengl3.cpp.obj	153484200bdcdaeb
 13	515	7015727204308537	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_draw.cpp.obj	e3d74d5051d60cb8
 21	520	7015727204425696	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_widgets.cpp.obj	595542c7629269f7
 17	564	7015727204857477	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_demo.cpp.obj	12a8c1b1f752d931
-9	620	7015727205338237	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui_impl_glfw.cpp.obj	c36d4ceb6560b6d3
-29	665	7015727205867076	src/CMakeFiles/cad.dir/main.cpp.obj	3d051b038e90fc35
-5	814	7015727207348657	CMakeFiles/imgui.dir/libs/Win32/IMGUI/imgui.cpp.obj	f5a98c83c7ee67c2
 814	889	7015727207969788	imgui.lib	1bc9bd4ede5054f0
 889	1645	7015727215495907	src/cad.exe	4aca6b89760b1eb3
+1	116	7015742552269332	build.ninja	1c701eedcedf8bd
+0	839	7015742561160648	src/CMakeFiles/cad.dir/main.cpp.obj	3d051b038e90fc35
+839	1238	7015742564876087	src/cad.exe	4aca6b89760b1eb3
+0	658	7015744076912769	src/CMakeFiles/cad.dir/main.cpp.obj	3d051b038e90fc35
+658	1047	7015744080469031	src/cad.exe	4aca6b89760b1eb3
+1	559	7015744495338385	src/CMakeFiles/cad.dir/main.cpp.obj	3d051b038e90fc35
+559	733	7015744496734693	src/cad.exe	4aca6b89760b1eb3
