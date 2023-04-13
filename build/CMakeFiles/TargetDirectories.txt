@@ -1,6 +1,0 @@
-C:/Users/joshu/Documents/Git-Repos/senior-project-cad-program/build/CMakeFiles/imgui.dir
-C:/Users/joshu/Documents/Git-Repos/senior-project-cad-program/build/CMakeFiles/edit_cache.dir
-C:/Users/joshu/Documents/Git-Repos/senior-project-cad-program/build/CMakeFiles/rebuild_cache.dir
-C:/Users/joshu/Documents/Git-Repos/senior-project-cad-program/build/src/CMakeFiles/cad.dir
-C:/Users/joshu/Documents/Git-Repos/senior-project-cad-program/build/src/CMakeFiles/edit_cache.dir
-C:/Users/joshu/Documents/Git-Repos/senior-project-cad-program/build/src/CMakeFiles/rebuild_cache.dir
