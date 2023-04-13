@@ -5,8 +5,9 @@
 #include "IMGUI/imgui_impl_glfw.h"
 #include "IMGUI/imgui_impl_opengl3.h"
 #include <corecrt_math.h>
+#include <vector>
 
-int  WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nShowCmd) {
+int  main() {
 
     GLFWwindow* window;
 
@@ -30,7 +31,7 @@ int  WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nSh
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsLight();
+    ImGui::StyleColorsDark();
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -151,7 +152,7 @@ int  WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nSh
         ImGui::Begin("Viewport");
         static ImVector<ImVec2> points;
         static ImVec2 scrolling(0.0f, 0.0f);
-        static bool opt_enable_grid = true;
+        static bool opt_enable_grid = false;
         static bool opt_enable_context_menu = true;
         static bool adding_line = false;
 
@@ -176,8 +177,8 @@ int  WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nSh
         // Draw border and background color
         //ImGuiIO& io = ImGui::GetIO();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
-        draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(50, 50, 50, 255));
-        draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(255, 255, 255, 255));
+        //draw_list->AddRectFilled(canvas_p0, canvas_p1, IM_COL32(50, 50, 50, 255));
+        //draw_list->AddRect(canvas_p0, canvas_p1, IM_COL32(255, 255, 255, 255));
 
         // This will catch our interactions
         ImGui::InvisibleButton("canvas", canvas_sz, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);

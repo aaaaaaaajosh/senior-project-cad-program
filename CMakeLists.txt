@@ -12,13 +12,16 @@ add_compile_definitions(GLEW_STATIC)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 link_directories(${PROJECT_SOURCE_DIR}/libs/Win32)
 
-#Compiling imgui to library
-file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/libs/Win32/IMGUI/*.cpp)
-add_library(imgui STATIC ${SOURCES})
+add_subdirectory(submodules)
 
 #Libraries
 find_package(OpenGL REQUIRED)
 link_libraries(imgui glew32s glfw3 OpenGL::GL)
 
-#Subdirectory
-add_subdirectory(src)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+
+add_executable(cad src/main.cpp src/glad.c)
+set_target_properties(cad PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+add_custom_target(copy_files ALL DEPENDS ${CMAKE_BINARY_DIR}/bin/cad)
+add_dependencies(copy_files cad)
