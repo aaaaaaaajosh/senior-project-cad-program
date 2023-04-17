@@ -29,3 +29,5 @@ add_dependencies(copy_files cad)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/extra/frag.txt ${CMAKE_BINARY_DIR}/bin/frag.txt COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/extra/vert.txt ${CMAKE_BINARY_DIR}/bin/vert.txt COPYONLY)
+
+configure_file(${CMAKE_SOURCE_DIR}/src/models/model.stl ${CMAKE_BINARY_DIR}/bin/model.stl COPYONLY)

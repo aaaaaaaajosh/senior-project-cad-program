@@ -17,19 +17,21 @@ using std::vector;
 struct Vertex {
     float x, y, z;
     Vertex(float X, float Y, float Z) : x(X), y(Y), z(Z) {}
+    Vertex() {}
 };
 
 class Mesh {
 public:
     vector<Vertex> vertices;
     vector<int> indices;
-    vector<int> lineIndices;
+    vector<int> edgeIndices;
     unsigned int EBO, EBO2, VBO, VAO, FBO, TEX, dTEX;
     Shader* shader;
     glm::vec3 color;
 
 
     Mesh();
+    Mesh(vector<Vertex> Vertices, vector<int> Indices, Shader& InputShader);
     Mesh(Shader& InputShader);
 
     void draw(ImVec2 size);

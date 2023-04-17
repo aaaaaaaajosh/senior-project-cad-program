@@ -37,7 +37,7 @@ int  main() {
             4, 0, 3,
             4, 7, 3
     };
-    mesh.lineIndices = {
+    mesh.edgeIndices = {
             0,1,
             1,2,
             2,3,

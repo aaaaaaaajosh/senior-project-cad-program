@@ -39,10 +39,12 @@ void Mesh::draw(ImVec2 size) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), indices.data(), GL_STATIC_DRAW);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
-    shader->setVec3("aColor", glm::vec3(0, 0, 0));
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, lineIndices.size() * sizeof(int), lineIndices.data(), GL_STATIC_DRAW);
-    glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
+    if (!edgeIndices.empty()) {
+        shader->setVec3("aColor", glm::vec3(0, 0, 0));
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO2);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, edgeIndices.size() * sizeof(int), edgeIndices.data(), GL_STATIC_DRAW);
+        glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
+    }
 
     ImGui::Image((ImTextureID)TEX, size, ImVec2(0, 1), ImVec2(1, 0));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -75,4 +77,6 @@ void Mesh::destroy() {
     glDeleteFramebuffers(1, &FBO);
 
 }
+
+Mesh::Mesh(vector<Vertex> Vertices, vector<int> Indices, Shader& InputShader) : vertices(Vertices), indices(Indices), shader(&InputShader) {}
 
