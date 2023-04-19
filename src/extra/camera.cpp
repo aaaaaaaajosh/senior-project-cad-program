@@ -2,8 +2,9 @@
 
 void Camera::update() {
     glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 projection = glm::perspective(glm::radians(fov), float(width) / float(height), 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(fov), float(width) / float(height), 0.1f, 1000.0f);
     glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    shader->setVec3("viewPos", cameraPos);
     shader->setMat4("model", model);
     shader->setMat4("view", view);
     shader->setMat4("projection", projection);

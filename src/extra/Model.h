@@ -17,19 +17,25 @@
 class Model {
 
 public:
-    Model(char *path)
+
+    Model() {}
+
+    Model(Shader& InputShader, std::string path)
     {
+        shader = &InputShader;
         loadModel(path);
     }
-    void draw(ImVec2 size);
+    void draw(Camera camera);
+    void init();
+    void destroy();
     Shader* shader;
-    unsigned int* FBO;
-private:
-    // model data
+    unsigned int FBO, TEX, dTEX;
     vector<Mesh> meshes;
+    void loadModel(std::string path);
+
+private:
     std::string directory;
 
-    void loadModel(std::string path);
     void processNode(aiNode *node, const aiScene *scene);
     Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 

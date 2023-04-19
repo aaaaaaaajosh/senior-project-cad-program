@@ -10,6 +10,22 @@
 #include "IMGUI/imgui.h"
 #include "IMGUI/imgui_impl_glfw.h"
 #include "IMGUI/imgui_impl_opengl3.h"
+#include "Model.h"
+#include <dirent/dirent.h>
+#include <sstream>
+
+struct Group {
+
+    glm::vec3 ambient = glm::vec3(-2.5f, 0.5f, 0.31f);
+    glm::vec3 diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
+    glm::vec3 specular = glm::vec3(0.5f, 0.5f, 0.5f);
+    float shininess = 32.0f;
+
+    glm::vec3 lightAmbient = glm::vec3(0.2f, 0.2f, 0.2f);
+    glm::vec3 lightDiffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+    glm::vec3 lightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 lightPosition = glm::vec3(50, 50, 50);
+};
 
 ImGuiIO& startImGui(GLFWwindow* window);
 
@@ -19,18 +35,18 @@ void imguiRender(GLFWwindow* window, ImGuiIO& io);
 
 void programEnd(GLFWwindow* window);
 
-void menuBar();
+void menuBar(GLFWwindow* window);
 
-void fileManager();
+void fileManager(std::string& path, vector<std::string> files);
 
-void features();
+void options(Group& group, Shader& shader, Camera& camera);
 
-void parts();
-
-void viewport(GLFWwindow*& window, Mesh& mesh, Camera& camera);
+void viewport(Model& model, Camera& camera);
 
 void variables();
 
+vector<std::string> getFiles();
+
 ImGuiIO& programStart(GLFWwindow*& window);
 
-void checkIO(GLFWwindow* window, Camera& camera);
+void checkIO(Camera& camera);

@@ -1,8 +1,8 @@
 #include "Model.h"
 
-void Model::draw(ImVec2 size) {
+void Model::draw(Camera camera) {
     for(unsigned int i = 0; i < meshes.size(); i++) {
-        meshes[i].draw(size);
+        meshes[i].draw(camera);
     }
 }
 
@@ -18,7 +18,6 @@ void Model::loadModel(std::string path) {
     directory = path.substr(0, path.find_last_of('/'));
 
     processNode(scene->mRootNode, scene);
-    std::cout << "gombo" << std::endl;
 }
 
 void Model::processNode(aiNode *node, const aiScene *scene) {
@@ -43,10 +42,14 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     {
         Vertex vertex;
         // process vertex positions, normals and texture coordinates
-        glm::vec3 vector;
-        vertex.x = mesh->mVertices[i].x;
-        vertex.y = mesh->mVertices[i].y;
-        vertex.z = mesh->mVertices[i].z;
+        vertex.position[0] = mesh->mVertices[i].x;
+        vertex.position[1] = mesh->mVertices[i].z;
+        vertex.position[2] = mesh->mVertices[i].y;
+
+        vertex.normal[0] = mesh->mNormals[i].x;
+        vertex.normal[1] = mesh->mNormals[i].z;
+        vertex.normal[2] = mesh->mNormals[i].y;
+
         vertices.push_back(vertex);
     }
     // process indices
@@ -59,4 +62,19 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     // process material
 
     return Mesh(vertices, indices, *shader);
+}
+
+void Model::init() {
+    glGenFramebuffers(1, &FBO);
+    glGenTextures(1, &TEX);
+    glGenTextures(1, &dTEX);
+}
+
+void Model::destroy() {
+    glDeleteTextures(1, &TEX);
+    glDeleteTextures(1, &dTEX);
+    glDeleteFramebuffers(1, &FBO);
+    for (auto& x : meshes)
+        x.destroy();
+    meshes.clear();
 }

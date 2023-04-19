@@ -79,41 +79,17 @@ void programEnd(GLFWwindow* window) {
     glfwTerminate();
 }
 
-void menuBar() {
+void menuBar(GLFWwindow* window) {
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("New")) {}
-            if (ImGui::MenuItem("Open", "Ctrl+O")) {}
-            if (ImGui::BeginMenu("Open Recent"))
-            {
-                ImGui::MenuItem("fish_hat.c");
-                ImGui::MenuItem("fish_hat.inl");
-                ImGui::MenuItem("fish_hat.h");
-                if (ImGui::BeginMenu("More.."))
-                {
-                    ImGui::MenuItem("Hello");
-                    ImGui::MenuItem("Sailor");
-                    if (ImGui::BeginMenu("Recurse.."))
-                    {
-                        ImGui::EndMenu();
-                    }
-                    ImGui::EndMenu();
-                }
-                ImGui::EndMenu();
+            if (ImGui::MenuItem("New")) {
+
             }
-            if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-            if (ImGui::MenuItem("Save As..")) {}
+
             ImGui::Separator();
-            if (ImGui::MenuItem("Quit", "Alt+F4")) {}
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Edit")) {
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Window")) {
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Help")) {
+            if (ImGui::MenuItem("Quit", "Alt+F4")) {
+                glfwSetWindowShouldClose(window, 1);
+            }
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
@@ -122,34 +98,140 @@ void menuBar() {
     ImGui::End();
 }
 
-void fileManager() {
+void fileManager(std::string& path, vector<std::string> files) {
     ImGui::Begin("File Manager");
-    static bool selected;
-    ImGui::Selectable("File1.step", &selected, ImGuiSelectableFlags_AllowDoubleClick);
+    for (int i = 1; i <= files.size(); i++) {
+        std::string s = std::to_string(i) + ": " + files[i-1];
+        if(ImGui::Button(s.c_str())) {
+            path = "models/" + files[i-1];
+        }
+    }
     ImGui::End();
 }
 
-void features() {
-    ImGui::Begin("Features");
-    static bool selecting;
-    ImGui::Selectable("Sketch 1", &selecting, ImGuiSelectableFlags_AllowDoubleClick);
+void options(Group& group, Shader& shader, Camera& camera) {
+    ImGui::Begin("Options");
+
+    shader.setVec3("material.ambient", group.ambient);
+    shader.setVec3("material.diffuse", group.diffuse);
+    shader.setVec3("material.specular", group.specular);
+    shader.setFloat("material.shininess", group.shininess);
+
+    shader.setVec3("light.ambient",  group.lightAmbient);
+    shader.setVec3("light.diffuse",  group.lightDiffuse); // darken diffuse light a bit
+    shader.setVec3("light.specular", group.lightSpecular);
+    shader.setVec3("light.position", group.lightPosition);
+
+    float width = ImGui::GetContentRegionAvail().x / 3.0f - 50;
+    ImGui::Text("Object Settings");
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##01", &group.ambient[0], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##02", &group.ambient[1], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Ambient", &group.ambient[2], 0.005f, -2.5f, 5.0f);
+
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##21", &group.specular[0], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##22", &group.specular[1], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Specular", &group.specular[2], 0.005f, -2.5f, 5.0f);
+
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##11", &group.diffuse[0], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##12", &group.diffuse[1], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Diffuse", &group.diffuse[2], 0.005f, -2.5f, 5.0f);
+    ImGui::DragFloat("Shininess", &group.shininess, 0.005f);
+
+    ImGui::Text("Light Settings");
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##141", &group.lightPosition[0], 0.5f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##142", &group.lightPosition[1], 0.5f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Light Position", &group.lightPosition[2], 0.5f);
+
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##51", &group.lightAmbient[0], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##52", &group.lightAmbient[1], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Light Ambient", &group.lightAmbient[2], 0.005f, -2.5f, 5.0f);
+
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##31", &group.lightSpecular[0], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##32", &group.lightSpecular[1], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Light Specular", &group.lightSpecular[2], 0.005f, -2.5f, 5.0f);
+
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##41", &group.lightDiffuse[0], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("##42", &group.lightDiffuse[1], 0.005f, -2.5f, 5.0f);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(width);
+    ImGui::DragFloat("Light Diffuse", &group.lightDiffuse[2], 0.005f, -2.5f, 5.0f);
+
+    ImGui::Text("Camera Settings");
+    ImGui::DragFloat("fov", &camera.fov, 0.1f);
+    ImGui::DragFloat("speed", &camera.speed, 0.5f);
+
     ImGui::End();
 }
 
-void parts() {
-    ImGui::Begin("Parts");
-    static bool selects;
-    ImGui::Selectable("Part 1", &selects, ImGuiSelectableFlags_AllowDoubleClick);
-    ImGui::End();
-}
+void viewport(Model& model, Camera& camera) {
 
-void viewport(GLFWwindow*& window, Mesh& mesh, Camera& camera) {
     ImGui::Begin("Viewport");
     ImGui::BeginChild("Render");
     ImVec2 size = ImGui::GetWindowSize();
-    checkIO(window, camera);
+    checkIO(camera);
 
-    mesh.draw(size);
+    glBindFramebuffer(GL_FRAMEBUFFER, model.FBO);
+
+    glViewport(0, 0, size.x, size.y);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_MULTISAMPLE);
+
+    glBindTexture(GL_TEXTURE_2D, model.dTEX);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, size.x, size.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, model.dTEX, 0);
+
+    glBindTexture(GL_TEXTURE_2D, model.TEX);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, model.TEX, 0);
+
+    model.draw(camera);
+
+    ImGui::Image((ImTextureID)model.TEX, size, ImVec2(0, 1), ImVec2(1, 0));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     camera.width = size.x;
     camera.height = size.y;
@@ -178,12 +260,12 @@ ImGuiIO& programStart(GLFWwindow*& window) {
     return io;
 }
 
-void checkIO(GLFWwindow* window, Camera& camera) {
+void checkIO(Camera& camera) {
 
     float currentFrame = glfwGetTime();
     float deltaTime = currentFrame - camera.lastFrame;
     camera.lastFrame = currentFrame;
-    float cameraSpeed = 2.5f * deltaTime;
+    float cameraSpeed = camera.speed * deltaTime;
 
     if (ImGui::IsMouseDown(1)) {
         camera.active = "Look";
@@ -207,4 +289,22 @@ void checkIO(GLFWwindow* window, Camera& camera) {
         camera.cameraPos += cameraSpeed * camera.cameraUp;
     if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
         camera.cameraPos -= cameraSpeed * camera.cameraUp;
+}
+
+vector<std::string> getFiles() {
+    DIR* dir = opendir("./models");
+    if (dir == NULL) return {};
+
+    struct dirent* entity;
+    entity = readdir(dir);
+    entity = readdir(dir);
+    entity = readdir(dir);
+    vector<std::string> result;
+    while (entity) {
+        result.emplace_back(entity->d_name);
+        entity = readdir(dir);
+    }
+
+    closedir(dir);
+    return result;
 }

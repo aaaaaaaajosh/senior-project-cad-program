@@ -25,6 +25,7 @@ public:
     Shader* shader;
     int width = 1200;
     int height = 700;
+    float speed = 7.5;
     std::string active = "None";
     GLFWwindow* window;
 

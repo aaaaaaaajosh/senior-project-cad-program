@@ -11,12 +11,13 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "camera.h"
 
 using std::vector;
 
 struct Vertex {
-    float x, y, z;
-    Vertex(float X, float Y, float Z) : x(X), y(Y), z(Z) {}
+    glm::vec3 position;
+    glm::vec3 normal;
     Vertex() {}
 };
 
@@ -25,7 +26,7 @@ public:
     vector<Vertex> vertices;
     vector<int> indices;
     vector<int> edgeIndices;
-    unsigned int EBO, EBO2, VBO, VAO, FBO, TEX, dTEX;
+    unsigned int EBO, EBO2, VBO, VAO;
     Shader* shader;
     glm::vec3 color;
 
@@ -34,7 +35,7 @@ public:
     Mesh(vector<Vertex> Vertices, vector<int> Indices, Shader& InputShader);
     Mesh(Shader& InputShader);
 
-    void draw(ImVec2 size);
+    void draw(Camera camera);
 
     void init();
 
