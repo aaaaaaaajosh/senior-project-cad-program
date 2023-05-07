@@ -8,3 +8,4 @@ add_library(imgui STATIC ${SOURCES})
 set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(assimp)
 
+add_library(nfd ${PROJECT_SOURCE_DIR}/submodules/nfd/src/nfd_win.cpp)

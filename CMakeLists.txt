@@ -32,3 +32,5 @@ configure_file(${CMAKE_SOURCE_DIR}/src/extra/frag.txt ${CMAKE_BINARY_DIR}/bin/fr
 configure_file(${CMAKE_SOURCE_DIR}/src/extra/vert.txt ${CMAKE_BINARY_DIR}/bin/vert.txt COPYONLY)
 
 file(COPY ${PROJECT_SOURCE_DIR}/src/models DESTINATION ${CMAKE_BINARY_DIR}/bin)
+
+target_link_libraries(cad nfd)

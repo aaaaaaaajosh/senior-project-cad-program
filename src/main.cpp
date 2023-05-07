@@ -66,7 +66,7 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmd
         // Start the Dear ImGui frame
         imguiGo(io);
 
-        menuBar(window);
+        menuBar(window, files);
 
         fileManager(path, files);
 

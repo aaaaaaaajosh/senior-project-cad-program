@@ -79,11 +79,24 @@ void programEnd(GLFWwindow* window) {
     glfwTerminate();
 }
 
-void menuBar(GLFWwindow* window) {
+void menuBar(GLFWwindow *window, vector<std::string>& files) {
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("New")) {
-
+                NFD_Init();
+                nfdchar_t *outPath;
+                nfdfilteritem_t filterItem[1] = { { "Model Files", "stl,fbx" }};
+                nfdresult_t result = NFD_OpenDialog(&outPath, filterItem, 1, NULL);
+                if (result == NFD_OKAY) {
+                    std::string fullName = outPath;
+                    std::string name = fullName.substr(fullName.find_last_of("/\\" + 1));
+                    fullName = "./models/" + name;
+                    const char *finalName = fullName.c_str();
+                    CopyFile(outPath, finalName, true);
+                    NFD_FreePath(outPath);
+                    NFD_Quit();
+                }
+                files = getFiles();
             }
 
             ImGui::Separator();

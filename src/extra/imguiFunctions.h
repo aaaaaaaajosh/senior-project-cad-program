@@ -13,6 +13,7 @@
 #include "Model.h"
 #include <dirent/dirent.h>
 #include <sstream>
+#include <nfd/nfd.h>
 
 struct Group {
 
@@ -35,7 +36,7 @@ void imguiRender(GLFWwindow* window, ImGuiIO& io);
 
 void programEnd(GLFWwindow* window);
 
-void menuBar(GLFWwindow* window);
+void menuBar(GLFWwindow *window, vector<std::string>& files);
 
 void fileManager(std::string& path, vector<std::string> files);
 
